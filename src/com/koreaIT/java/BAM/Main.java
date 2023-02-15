@@ -3,6 +3,8 @@ package com.koreaIT.java.BAM;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
 	public static void main(String[] args) {
@@ -31,13 +33,13 @@ public class Main {
 			else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
-
+				String regDate = Date.getNowDate();
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, regDate, title, body);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -78,6 +80,7 @@ public class Main {
 				}
 
 				System.out.println("번호 : " + foundArticle.id);
+				System.out.println("번호 : " + foundArticle.regDate);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 
@@ -122,12 +125,26 @@ public class Main {
 class Article {
 
 	int id;
+	String regDate;
 	String title;
 	String body;
 
-	public Article(int id, String title, String body) {
+	public Article(int id, String regDate, String title, String body) {
 		this.id = id;
+		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
+	}
+}
+
+class Date {
+	static String getNowDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		LocalDateTime now = LocalDateTime.now();
+		
+		String formatedNow = now.format(formatter);
+		
+		return formatedNow;
 	}
 }
