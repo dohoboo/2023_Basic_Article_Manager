@@ -31,6 +31,7 @@ public class Main {
 			else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
+
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
@@ -50,10 +51,59 @@ public class Main {
 				}
 
 				System.out.println("번호 | 제목");
+
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.println(article.id +"    |  "+ article.title);
+					System.out.println(article.id + "    |  " + article.title);
 				}
+			}
+
+			else if (cmd.startsWith("article detail ")) {
+				String[] commandBits = cmd.split(" ");
+				int id = Integer.parseInt(commandBits[2]);
+				Article foundArticle = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.println(id + "번 게시글은 존재하지 않습니다.");
+					continue;
+				}
+
+				System.out.println("번호 : " + foundArticle.id);
+				System.out.println("제목 : " + foundArticle.title);
+				System.out.println("내용 : " + foundArticle.body);
+
+			}
+
+			else if (cmd.startsWith("article delete ")) {
+				String[] commandBits = cmd.split(" ");
+				int id = Integer.parseInt(commandBits[2]);
+				int foundIndex = -1;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundIndex = i;
+						break;
+					}
+				}
+
+				if (foundIndex == -1) {
+					System.out.println(id + "번 게시글은 존재하지 않습니다.");
+					continue;
+				}
+
+				articles.remove(foundIndex);
+				System.out.println(id + "번 게시글을 삭제했습니다.");
 			}
 
 			else {
