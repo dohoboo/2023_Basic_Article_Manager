@@ -33,7 +33,7 @@ public class Main {
 			else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
-				String regDate = Date.getNowDate();
+				String regDate = Util.getNowDate();
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
@@ -133,7 +133,7 @@ public class Main {
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
-				String updateDate = Date.getNowDate();
+				String updateDate = Util.getNowDate();
 
 				foundArticle.title = title;
 				foundArticle.body = body;
@@ -169,17 +169,5 @@ class Article {
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
-	}
-}
-
-class Date {
-	static String getNowDate() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-		LocalDateTime now = LocalDateTime.now();
-
-		String formatedNow = now.format(formatter);
-
-		return formatedNow;
 	}
 }
