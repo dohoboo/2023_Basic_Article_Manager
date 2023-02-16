@@ -39,7 +39,7 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, regDate, title, body);
+				Article article = new Article(id, regDate, regDate, title, body);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -52,11 +52,11 @@ public class Main {
 					continue;
 				}
 
-				System.out.println("번호 | 제목");
+				System.out.println("번호 | 제목 | 작성일");
 
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.println(article.id + "    |  " + article.title);
+					System.out.println(article.id + "    |  " + article.title + " | " + article.regDate);
 				}
 			}
 
@@ -80,7 +80,8 @@ public class Main {
 				}
 
 				System.out.println("번호 : " + foundArticle.id);
-				System.out.println("번호 : " + foundArticle.regDate);
+				System.out.println("작성일 : " + foundArticle.regDate);
+				System.out.println("수정일 : " + foundArticle.updateDate);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 
@@ -109,6 +110,38 @@ public class Main {
 				System.out.println(id + "번 게시글을 삭제했습니다.");
 			}
 
+			else if (cmd.startsWith("article modify ")) {
+				String[] commandBits = cmd.split(" ");
+				int id = Integer.parseInt(commandBits[2]);
+				Article foundArticle = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.println(id + "번 게시글은 존재하지 않습니다.");
+					continue;
+				}
+
+				System.out.printf("제목 : ");
+				String title = sc.nextLine();
+				System.out.printf("내용 : ");
+				String body = sc.nextLine();
+				String updateDate = Date.getNowDate();
+
+				foundArticle.title = title;
+				foundArticle.body = body;
+				foundArticle.updateDate =updateDate;
+
+				System.out.println(id + "번 게시글을 수정했습니다.");
+			}
+
 			else {
 				System.out.println("존재하지 않는 명령어 입니다");
 			}
@@ -126,12 +159,14 @@ class Article {
 
 	int id;
 	String regDate;
+	String updateDate;
 	String title;
 	String body;
 
-	public Article(int id, String regDate, String title, String body) {
+	public Article(int id, String regDate, String updateDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
+		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
 	}
@@ -140,11 +175,11 @@ class Article {
 class Date {
 	static String getNowDate() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		
+
 		LocalDateTime now = LocalDateTime.now();
-		
+
 		String formatedNow = now.format(formatter);
-		
+
 		return formatedNow;
 	}
 }
