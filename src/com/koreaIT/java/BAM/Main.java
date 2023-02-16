@@ -3,8 +3,6 @@ package com.koreaIT.java.BAM;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Main {
 	public static void main(String[] args) {
@@ -39,7 +37,7 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, regDate, regDate, title, body);
+				Article article = new Article(id, regDate, regDate, title, body, 0);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -52,11 +50,12 @@ public class Main {
 					continue;
 				}
 
-				System.out.println("번호 | 제목 | 작성일");
+				System.out.println("번호 | 제목 | 작성일              |조회수");
 
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.println(article.id + "    |  " + article.title + " | " + article.regDate);
+					System.out.println(
+							article.id + "    |  " + article.title + " | " + article.regDate + " | " + article.hit);
 				}
 			}
 
@@ -70,6 +69,7 @@ public class Main {
 
 					if (article.id == id) {
 						foundArticle = article;
+						article.hit++;
 						break;
 					}
 				}
@@ -82,6 +82,7 @@ public class Main {
 				System.out.println("번호 : " + foundArticle.id);
 				System.out.println("작성일 : " + foundArticle.regDate);
 				System.out.println("수정일 : " + foundArticle.updateDate);
+				System.out.println("조회수 :" + foundArticle.hit);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 
@@ -137,7 +138,7 @@ public class Main {
 
 				foundArticle.title = title;
 				foundArticle.body = body;
-				foundArticle.updateDate =updateDate;
+				foundArticle.updateDate = updateDate;
 
 				System.out.println(id + "번 게시글을 수정했습니다.");
 			}
@@ -162,12 +163,14 @@ class Article {
 	String updateDate;
 	String title;
 	String body;
+	int hit;
 
-	public Article(int id, String regDate, String updateDate, String title, String body) {
+	public Article(int id, String regDate, String updateDate, String title, String body, int hit) {
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
+		this.hit = hit;
 	}
 }
