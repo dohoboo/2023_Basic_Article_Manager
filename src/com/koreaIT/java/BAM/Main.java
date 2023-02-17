@@ -5,14 +5,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+	static List<Article> articles = new ArrayList();
+	static int lastArticleId = 0;
+
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
+		
+		makeTestDate();
 
 		Scanner sc = new Scanner(System.in);
 
-		int lastArticleId = 0;
-
-		List<Article> articles = new ArrayList();
+		
 
 		while (true) {
 
@@ -29,8 +33,7 @@ public class Main {
 			}
 
 			else if (cmd.equals("article write")) {
-				int id = lastArticleId + 1;
-				lastArticleId = id;
+				int id = articles.size() + 1;
 				String regDate = Util.getNowDate();
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
@@ -69,7 +72,6 @@ public class Main {
 
 					if (article.id == id) {
 						foundArticle = article;
-						article.hit++;
 						break;
 					}
 				}
@@ -79,6 +81,7 @@ public class Main {
 					continue;
 				}
 
+				foundArticle.increaseHit();
 				System.out.println("번호 : " + foundArticle.id);
 				System.out.println("작성일 : " + foundArticle.regDate);
 				System.out.println("수정일 : " + foundArticle.updateDate);
@@ -154,6 +157,14 @@ public class Main {
 		sc.close();
 
 	}
+
+	static void makeTestDate() {
+		articles.add(new Article(1, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 10));
+		articles.add(new Article(2, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 20));
+		articles.add(new Article(3, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 30));
+		
+		System.out.println("테스트 데이터가 생성되었습니다.");
+	}
 }
 
 class Article {
@@ -172,5 +183,9 @@ class Article {
 		this.title = title;
 		this.body = body;
 		this.hit = hit;
+	}
+
+	void increaseHit() {
+		this.hit++;
 	}
 }
