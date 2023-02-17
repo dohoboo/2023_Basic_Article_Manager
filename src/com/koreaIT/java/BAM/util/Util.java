@@ -1,10 +1,10 @@
-package com.koreaIT.java.BAM;
+package com.koreaIT.java.BAM.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Util {
-	static String getNowDate() {
+	public static String getNowDate() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 		LocalDateTime now = LocalDateTime.now();
