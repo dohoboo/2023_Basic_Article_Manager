@@ -1,6 +1,7 @@
 package com.koreaIT.java.BAM;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,19 +48,42 @@ public class App {
 
 			}
 
-			else if (cmd.equals("article list")) {
+			else if (cmd.startsWith("article list")) {
+
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다.");
 					continue;
 				}
 
-				System.out.println("번호 | 제목 | 작성일              |조회수");
+				String searchKeyWord = cmd.substring("article list".length()).trim(); // 명령어를 잘라 담아둘 변수 searchKeyWord 선언
 
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+				List<Article> printArticles = articles; // articles를 담을 printArticles를 선언
+
+				if (searchKeyWord.length() > 0) { // 변수 searchKeyWord의 길이가 0보다 길때, 
+					System.out.println("검색어 : " + searchKeyWord);
+
+					printArticles = new ArrayList<>(); // 변수 printArticles에 새로운 ArrayList를 덮어 씌우고,
+
+					for (Article article : articles) { // ArrayList articles를 순회해,
+						if (article.title.contains(searchKeyWord)) { // 만일 title에 searchKeyWord를 포함한 articles 객체가 있다면,
+							printArticles.add(article);
+						}
+					}
+					
+					if(printArticles.size() == 0) {
+						System.out.println("검색 결과가 없습니다.");
+						continue;
+					}
+				}
+
+				System.out.println("번호 | 제목 | 작성일              |조회수");
+				Collections.reverse(printArticles); // List printArticles를 역순으로 뒤집기
+				
+				for (Article article : printArticles) {
 					System.out.println(
 							article.id + "    |  " + article.title + " | " + article.regDate + " | " + article.hit);
 				}
+
 			}
 
 			else if (cmd.startsWith("article detail ")) {
@@ -88,16 +112,16 @@ public class App {
 
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
-				
+
 				Article foundArticle = getArticleById(id);
-				
-				if(foundArticle == null) {
+
+				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				}
-				
+
 				articles.remove(articles.indexOf(foundArticle));
-				
+
 				System.out.printf("%d번 게시글을 삭제했습니다\n", id);
 			}
 
@@ -138,17 +162,16 @@ public class App {
 
 	}
 
-private Article getArticleById(int id) {
-		
-		for(Article article : articles) {
-			if(article.id == id) {
+	private Article getArticleById(int id) {
+
+		for (Article article : articles) {
+			if (article.id == id) {
 				return article;
 			}
 		}
-		
+
 		return null;
 	}
-
 
 	void fondArticle() {
 
