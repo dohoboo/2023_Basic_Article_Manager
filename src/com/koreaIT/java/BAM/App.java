@@ -11,6 +11,7 @@ import com.koreaIT.java.BAM.util.Util;
 public class App {
 
 	private List<Article> articles = new ArrayList();
+	private List<Member> members = new ArrayList();
 
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
@@ -57,20 +58,20 @@ public class App {
 
 				String searchKeyWord = cmd.substring("article list".length()).trim(); // 명령어를 잘라 담아둘 변수 searchKeyWord 선언
 
-				List<Article> printArticles = articles; // articles를 담을 printArticles를 선언
+				List<Article> printArticles = new ArrayList<>(articles); // articles를 복사해 담을 printArticles를 선언
 
-				if (searchKeyWord.length() > 0) { // 변수 searchKeyWord의 길이가 0보다 길때, 
+				if (searchKeyWord.length() > 0) { // 만일 변수 searchKeyWord의 길이가 0보다 길때,
 					System.out.println("검색어 : " + searchKeyWord);
 
-					printArticles = new ArrayList<>(); // 변수 printArticles에 새로운 ArrayList를 덮어 씌우고,
+					printArticles.clear(); // 변수 printArticles에 들어있는 값을 비운 뒤 삭제하고,
 
 					for (Article article : articles) { // ArrayList articles를 순회해,
 						if (article.title.contains(searchKeyWord)) { // 만일 title에 searchKeyWord를 포함한 articles 객체가 있다면,
-							printArticles.add(article);
+							printArticles.add(article); // printArticles에 위의 조건에 부합하는 article 객체를 저장한다.
 						}
 					}
-					
-					if(printArticles.size() == 0) {
+
+					if (printArticles.size() == 0) {
 						System.out.println("검색 결과가 없습니다.");
 						continue;
 					}
@@ -78,7 +79,7 @@ public class App {
 
 				System.out.println("번호 | 제목 | 작성일              |조회수");
 				Collections.reverse(printArticles); // List printArticles를 역순으로 뒤집기
-				
+
 				for (Article article : printArticles) {
 					System.out.println(
 							article.id + "    |  " + article.title + " | " + article.regDate + " | " + article.hit);
@@ -150,6 +151,23 @@ public class App {
 				System.out.println(id + "번 게시글을 수정했습니다.");
 			}
 
+			else if (cmd.equals("member join")) {
+
+				int id = 1;
+				String regDate = Util.getNowDate();
+				System.out.printf("ID : ");
+				String loginId = sc.nextLine();
+				System.out.printf("비밀번호 : ");
+				String passWord = sc.nextLine();
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+
+				Member member = new Member(id, regDate, loginId, passWord, name);
+				members.add(member);
+
+				System.out.printf("%s 회원님 환영합니다.\n", name);
+			}
+
 			else {
 				System.out.println("존재하지 않는 명령어 입니다");
 			}
@@ -183,5 +201,23 @@ public class App {
 		articles.add(new Article(3, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 30));
 
 		System.out.println("테스트 데이터가 생성되었습니다.");
+	}
+}
+
+class Member {
+
+	public int id;
+	public String regDate;
+	public String loginId;
+	public String passWord;
+	public String name;
+
+	public Member(int id, String regDate, String loginId, String passWord, String name) {
+		this.id = id;
+		this.regDate = regDate;
+		this.loginId = loginId;
+		this.passWord = passWord;
+		this.name = name;
+
 	}
 }
