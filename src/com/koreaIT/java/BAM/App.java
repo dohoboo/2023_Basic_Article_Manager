@@ -12,10 +12,12 @@ public class App {
 
 	private List<Article> articles = new ArrayList();
 	private List<Member> members = new ArrayList();
-
+	
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
-
+		
+		int LastMemberId = 0;
+		
 		makeTestDate();
 
 		Scanner sc = new Scanner(System.in);
@@ -152,8 +154,8 @@ public class App {
 			}
 
 			else if (cmd.equals("member join")) {
-
-				int id = 1;
+				
+				int id = LastMemberId + 1;
 				String regDate = Util.getNowDate();
 				System.out.printf("ID : ");
 				String loginId = sc.nextLine();
@@ -218,6 +220,5 @@ class Member {
 		this.loginId = loginId;
 		this.passWord = passWord;
 		this.name = name;
-
 	}
 }
