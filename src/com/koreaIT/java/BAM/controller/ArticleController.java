@@ -8,14 +8,50 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
 	List<Article> articles;
 	Scanner sc;
+	String cmd;
 
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
 		this.sc = sc;
+	}
+	
+	public void doAction(String cmd, String methodName) {
+		this.cmd = cmd;
+
+		switch (methodName) {
+		case "list":
+			showList(cmd);
+			break;
+		}
+
+		switch (methodName) {
+		case "detail":
+			showDetail(cmd);
+			break;
+		}
+
+		switch (methodName) {
+		case "write":
+			doWrite();
+			break;
+		}
+
+		switch (methodName) {
+		case "modify":
+			doModify(cmd);
+			break;
+		}
+
+		switch (methodName) {
+		case "delete":
+			doDelete(cmd);
+			break;
+		}
+
 	}
 
 	public void doWrite() {

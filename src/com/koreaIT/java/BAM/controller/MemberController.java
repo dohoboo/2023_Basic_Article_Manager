@@ -6,16 +6,27 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
 
-public class MemberController {
+public class MemberController extends Controller {
 
 	int LastMemberId = 0;
 
 	List<Member> members;
 	Scanner sc;
+	String cmd;
 
 	public MemberController(List<Member> members, Scanner sc) {
 		this.members = members;
 		this.sc = sc;
+	}
+
+	public void doAction(String cmd, String methodName) {
+		this.cmd = cmd;
+
+		switch (methodName) {
+		case "join":
+			doJoin();
+			break;
+		}
 	}
 
 	public void doJoin() {
