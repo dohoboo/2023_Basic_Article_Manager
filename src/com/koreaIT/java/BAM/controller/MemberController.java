@@ -1,5 +1,6 @@
 package com.koreaIT.java.BAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,20 +9,16 @@ import com.koreaIT.java.BAM.util.Util;
 
 public class MemberController extends Controller {
 
-	int LastMemberId = 0;
-
-	List<Member> members;
-	Scanner sc;
-	String cmd;
-
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	private int LastMemberId = 3;
+	private List<Member> members;
+	private Scanner sc;
+	
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
 
 	public void doAction(String cmd, String methodName) {
-		this.cmd = cmd;
-
 		switch (methodName) {
 		case "join":
 			doJoin();
@@ -29,7 +26,7 @@ public class MemberController extends Controller {
 		}
 	}
 
-	public void doJoin() {
+	private void doJoin() {
 		int id = LastMemberId + 1;
 		LastMemberId = id;
 		String regDate = Util.getNowDate();
@@ -99,5 +96,13 @@ public class MemberController extends Controller {
 		}
 
 		return true;
+	}
+	
+	public void makeTestDate() {
+		members.add(new Member(1, Util.getNowDate(),"test1", "1234", "test"));
+		members.add(new Member(2, Util.getNowDate(),"test2", "1234", "test"));
+		members.add(new Member(3, Util.getNowDate(),"test3", "1234", "test"));
+
+		System.out.println("테스트 회원이 생성되었습니다.");
 	}
 }

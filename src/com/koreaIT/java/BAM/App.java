@@ -1,30 +1,22 @@
 package com.koreaIT.java.BAM;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.java.BAM.controller.ArticleController;
 import com.koreaIT.java.BAM.controller.Controller;
 import com.koreaIT.java.BAM.controller.MemberController;
-import com.koreaIT.java.BAM.dto.Article;
-import com.koreaIT.java.BAM.dto.Member;
-import com.koreaIT.java.BAM.util.Util;
 
 public class App {
-
-	private List<Article> articles = new ArrayList();
-	private List<Member> members = new ArrayList();
 
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
 
-		makeTestDate();
-
 		Scanner sc = new Scanner(System.in);
 
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
+		
+		articleController.makeTestDate();
 
 		while (true) {
 
@@ -73,13 +65,5 @@ public class App {
 
 		sc.close();
 
-	}
-
-	private void makeTestDate() {
-		articles.add(new Article(1, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 10));
-		articles.add(new Article(2, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 20));
-		articles.add(new Article(3, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 30));
-
-		System.out.println("테스트 데이터가 생성되었습니다.");
 	}
 }

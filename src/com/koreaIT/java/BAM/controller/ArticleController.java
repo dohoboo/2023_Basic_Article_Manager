@@ -14,8 +14,8 @@ public class ArticleController extends Controller {
 	Scanner sc;
 	String cmd;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
 		this.sc = sc;
 	}
 	
@@ -177,5 +177,12 @@ public class ArticleController extends Controller {
 
 		return null;
 	}
+	
+	public void makeTestDate() {
+		articles.add(new Article(1, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 10));
+		articles.add(new Article(2, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 20));
+		articles.add(new Article(3, Util.getNowDate(), Util.getNowDate(), "test title", "test body", 30));
 
+		System.out.println("테스트 데이터가 생성되었습니다.");
+	}
 }
