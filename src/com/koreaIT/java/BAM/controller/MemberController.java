@@ -41,7 +41,7 @@ public class MemberController extends Controller {
 
 	private void doLogin() {
 
-		if (loginedMember != null) {
+		if (isLogined()) {
 			System.out.println("이미 로그인 상태입니다.");
 			return;
 		}
@@ -69,7 +69,7 @@ public class MemberController extends Controller {
 	
 	private void doLogout() {
 
-		if (loginedMember == null) {
+		if (isLogined() == false) {
 			System.out.println("로그인 상태가 아닙니다.");
 			return;
 		}
@@ -161,12 +161,9 @@ public class MemberController extends Controller {
 		return null;
 	}
 
-	private boolean chkLogined() {
-		if (loginedMember != null) {
-			return true;
-		}else {
-			return false;
-		}
+	private boolean isLogined() {
+		
+		return loginedMember != null;
 	}
 
  	public void makeTestDate() {
