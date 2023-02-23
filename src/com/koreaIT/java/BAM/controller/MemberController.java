@@ -12,6 +12,7 @@ public class MemberController extends Controller {
 	private int LastMemberId = 3;
 	private List<Member> members;
 	private Scanner sc;
+	private Member loginedMember = null;
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
@@ -23,35 +24,60 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
-		}
 
-		switch (methodName) {
 		case "login":
 			doLogin();
+			break;
+
+		case "logout":
+			doLogout();
+			break;
+
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
 			break;
 		}
 	}
 
 	private void doLogin() {
+
+		if (loginedMember != null) {
+			System.out.println("이미 로그인 상태입니다.");
+			return;
+		}
+
 		System.out.println("ID : ");
 		String loginId = sc.nextLine().trim();
 		System.out.println("비밀번호 : ");
 		String passWord = sc.nextLine().trim();
 
 		Member member = getMemberByLoginId(loginId);
-		
+
 		if (member == null) {
 			System.out.println("존재하지 않는 아이디 입니다");
 			return;
 		}
 
-		if(member.passWord.equals(passWord) == false) {
+		if (member.passWord.equals(passWord) == false) {
 			System.out.println("비밀번호를 확인해주세요");
 			return;
 		}
 
+		loginedMember = member;
 		System.out.printf("로그인 성공! %s님 환영합니다\n", member.name);
 	}
+	
+	private void doLogout() {
+
+		if (loginedMember == null) {
+			System.out.println("로그인 상태가 아닙니다.");
+			return;
+		}
+
+		loginedMember = null;
+		System.out.println("로그아웃 되었습니다.");
+	}
+
 
 	private void doJoin() {
 		int id = LastMemberId + 1;
@@ -124,21 +150,29 @@ public class MemberController extends Controller {
 
 		return false;
 	}
-	
+
 	private Member getMemberByLoginId(String loginId) {
-		
-		for(Member member : members) {
-			if(member.loginId.equals(loginId)) {
+
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
 				return member;
 			}
 		}
 		return null;
 	}
 
-	public void makeTestDate() {
-		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "test"));
-		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "test"));
-		members.add(new Member(3, Util.getNowDate(), "test3", "1234", "test"));
+	private boolean chkLogined() {
+		if (loginedMember != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+ 	public void makeTestDate() {
+		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "user1"));
+		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "user2"));
+		members.add(new Member(3, Util.getNowDate(), "test3", "1234", "user3"));
 
 		System.out.println("테스트 회원이 생성되었습니다.");
 	}
