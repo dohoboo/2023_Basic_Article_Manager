@@ -33,10 +33,25 @@ public class MemberController extends Controller {
 			doLogout();
 			break;
 
+		case "profile":
+			showProfile();
+			break;
+
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
 		}
+	}
+
+	private void showProfile() {
+		if (isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		
+		System.out.println("== 내 정보 ==");
+		System.out.println("ID : "+loginedMember.loginId);
+		System.out.println("이름 : "+loginedMember.name);
 	}
 
 	private void doLogin() {
@@ -66,7 +81,7 @@ public class MemberController extends Controller {
 		loginedMember = member;
 		System.out.printf("로그인 성공! %s님 환영합니다\n", member.name);
 	}
-	
+
 	private void doLogout() {
 
 		if (isLogined() == false) {
@@ -77,7 +92,6 @@ public class MemberController extends Controller {
 		loginedMember = null;
 		System.out.println("로그아웃 되었습니다.");
 	}
-
 
 	private void doJoin() {
 		int id = LastMemberId + 1;
@@ -162,11 +176,11 @@ public class MemberController extends Controller {
 	}
 
 	private boolean isLogined() {
-		
+
 		return loginedMember != null;
 	}
 
- 	public void makeTestDate() {
+	public void makeTestDate() {
 		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "user1"));
 		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "user2"));
 		members.add(new Member(3, Util.getNowDate(), "test3", "1234", "user3"));
