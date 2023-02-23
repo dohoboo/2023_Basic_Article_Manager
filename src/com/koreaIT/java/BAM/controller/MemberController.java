@@ -12,7 +12,7 @@ public class MemberController extends Controller {
 	private int LastMemberId = 3;
 	private List<Member> members;
 	private Scanner sc;
-	
+
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
@@ -24,6 +24,33 @@ public class MemberController extends Controller {
 			doJoin();
 			break;
 		}
+
+		switch (methodName) {
+		case "login":
+			doLogin();
+			break;
+		}
+	}
+
+	private void doLogin() {
+		System.out.println("ID : ");
+		String loginId = sc.nextLine().trim();
+		System.out.println("비밀번호 : ");
+		String passWord = sc.nextLine().trim();
+
+		Member member = getMemberByLoginId(loginId);
+		
+		if (member == null) {
+			System.out.println("존재하지 않는 아이디 입니다");
+			return;
+		}
+
+		if(member.passWord.equals(passWord) == false) {
+			System.out.println("비밀번호를 확인해주세요");
+			return;
+		}
+
+		System.out.printf("로그인 성공! %s님 환영합니다\n", member.name);
 	}
 
 	private void doJoin() {
@@ -89,19 +116,29 @@ public class MemberController extends Controller {
 
 	private boolean loginIdDupChk(String loginId) {
 
-		for (Member member : members) {
-			if (member.loginId.equals(loginId) == true) {
-				return false;
-			}
+		Member member = getMemberByLoginId(loginId);
+
+		if (member == null) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 	
+	private Member getMemberByLoginId(String loginId) {
+		
+		for(Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				return member;
+			}
+		}
+		return null;
+	}
+
 	public void makeTestDate() {
-		members.add(new Member(1, Util.getNowDate(),"test1", "1234", "test"));
-		members.add(new Member(2, Util.getNowDate(),"test2", "1234", "test"));
-		members.add(new Member(3, Util.getNowDate(),"test3", "1234", "test"));
+		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "test"));
+		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "test"));
+		members.add(new Member(3, Util.getNowDate(), "test3", "1234", "test"));
 
 		System.out.println("테스트 회원이 생성되었습니다.");
 	}
