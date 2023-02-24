@@ -16,8 +16,8 @@ public class App {
 		MemberController memberController = new MemberController(sc);
 		ArticleController articleController = new ArticleController(sc);
 		
-		articleController.makeTestDate();
-		memberController.makeTestDate();
+		memberController.makeTestData();
+		articleController.makeTestData();
 
 		while (true) {
 

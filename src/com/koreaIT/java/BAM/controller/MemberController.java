@@ -12,7 +12,7 @@ public class MemberController extends Controller {
 	private int LastMemberId = 3;
 	private List<Member> members;
 	private Scanner sc;
-	private Member loginedMember = null;
+	
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
@@ -94,6 +94,12 @@ public class MemberController extends Controller {
 	}
 
 	private void doJoin() {
+		
+		if (isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		}
+		
 		int id = LastMemberId + 1;
 		LastMemberId = id;
 		String regDate = Util.getNowDate();
@@ -175,12 +181,12 @@ public class MemberController extends Controller {
 		return null;
 	}
 
-	private boolean isLogined() {
+	public boolean isLogined() {
 
 		return loginedMember != null;
 	}
 
-	public void makeTestDate() {
+	public void makeTestData() {
 		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "user1"));
 		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "user2"));
 		members.add(new Member(3, Util.getNowDate(), "test3", "1234", "user3"));
