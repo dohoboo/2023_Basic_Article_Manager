@@ -44,10 +44,6 @@ public class MemberController extends Controller {
 	}
 
 	private void showProfile() {
-		if (isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요.");
-			return;
-		}
 		
 		System.out.println("== 내 정보 ==");
 		System.out.println("ID : "+loginedMember.loginId);
@@ -55,11 +51,6 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
-
-		if (isLogined()) {
-			System.out.println("이미 로그인 상태입니다.");
-			return;
-		}
 
 		System.out.println("ID : ");
 		String loginId = sc.nextLine().trim();
@@ -84,21 +75,11 @@ public class MemberController extends Controller {
 
 	private void doLogout() {
 
-		if (isLogined() == false) {
-			System.out.println("로그인 상태가 아닙니다.");
-			return;
-		}
-
 		loginedMember = null;
 		System.out.println("로그아웃 되었습니다.");
 	}
 
 	private void doJoin() {
-		
-		if (isLogined()) {
-			System.out.println("로그아웃 후 이용해주세요.");
-			return;
-		}
 		
 		int id = LastMemberId + 1;
 		LastMemberId = id;
@@ -180,12 +161,7 @@ public class MemberController extends Controller {
 		}
 		return null;
 	}
-
-	public boolean isLogined() {
-
-		return loginedMember != null;
-	}
-
+	
 	public void makeTestData() {
 		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "user1"));
 		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "user2"));

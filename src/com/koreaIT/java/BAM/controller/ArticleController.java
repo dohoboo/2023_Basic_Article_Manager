@@ -51,11 +51,6 @@ public class ArticleController extends Controller {
 
 	public void doWrite() {
 
-		if (isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요");
-			return;
-		}
-
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDate();
 		System.out.printf("제목 : ");
@@ -130,11 +125,6 @@ public class ArticleController extends Controller {
 
 	public void doDelete(String cmd) {
 
-		if (isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요");
-			return;
-		}
-
 		String[] cmdBits = cmd.split(" ");
 		int id = Integer.parseInt(cmdBits[2]);
 
@@ -157,11 +147,6 @@ public class ArticleController extends Controller {
 	}
 
 	public void doModify(String cmd) {
-
-		if (isLogined() == false) {
-			System.out.println("로그인 후 이용해주세요");
-			return;
-		}
 
 		String[] commandBits = cmd.split(" ");
 		int id = Integer.parseInt(commandBits[2]);
@@ -202,11 +187,6 @@ public class ArticleController extends Controller {
 		}
 
 		return null;
-	}
-
-	public boolean isLogined() {
-
-		return loginedMember != null;
 	}
 
 	public void makeTestData() {

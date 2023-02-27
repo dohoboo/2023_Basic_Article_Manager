@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.controller.ArticleController;
 import com.koreaIT.java.BAM.controller.Controller;
 import com.koreaIT.java.BAM.controller.MemberController;
+import com.koreaIT.java.BAM.dto.Member;
 
 public class App {
 
@@ -56,6 +57,32 @@ public class App {
 			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 				continue;
+			}
+			
+			String actionName = controllerName + "/" + methodName;
+
+			switch (actionName) {
+			case "article/write":
+			case "article/delete":
+			case "article/modify":
+			case "member/logout":
+				if (Controller.isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					continue;
+				}
+
+				break;
+			}
+
+			switch (actionName) {
+			case "member/login":
+			case "member/join":
+				if (Controller.isLogined()) {
+					System.out.println("로그아웃 후 이용해주세요");
+					continue;
+				}
+
+				break;
 			}
 			
 			controller.doAction(cmd, methodName);
