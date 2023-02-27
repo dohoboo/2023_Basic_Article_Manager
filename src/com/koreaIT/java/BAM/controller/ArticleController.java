@@ -41,7 +41,7 @@ public class ArticleController extends Controller {
 
 		case "delete":
 			doDelete(cmd);
-			break; 
+			break;
 
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
@@ -104,6 +104,12 @@ public class ArticleController extends Controller {
 	public void showDetail(String cmd) {
 
 		String[] commandBits = cmd.split(" ");
+
+		if (commandBits.length == 2) {
+			System.out.println("명령어를 확인해주세요.");
+			return;
+		}
+
 		int id = Integer.parseInt(commandBits[2]);
 
 		Article foundArticle = getArticleById(id);
@@ -126,6 +132,11 @@ public class ArticleController extends Controller {
 	public void doDelete(String cmd) {
 
 		String[] cmdBits = cmd.split(" ");
+		
+		if (cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요.");
+			return;
+		}
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleById(id);
@@ -149,6 +160,12 @@ public class ArticleController extends Controller {
 	public void doModify(String cmd) {
 
 		String[] commandBits = cmd.split(" ");
+		
+		if (commandBits.length == 2) {
+			System.out.println("명령어를 확인해주세요.");
+			return;
+		}
+		
 		int id = Integer.parseInt(commandBits[2]);
 
 		Article foundArticle = getArticleById(id);
