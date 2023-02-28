@@ -12,7 +12,6 @@ public class MemberController extends Controller {
 	private int LastMemberId = 3;
 	private List<Member> members;
 	private Scanner sc;
-	
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
@@ -44,29 +43,49 @@ public class MemberController extends Controller {
 	}
 
 	private void showProfile() {
-		
+
 		System.out.println("== 내 정보 ==");
-		System.out.println("ID : "+loginedMember.loginId);
-		System.out.println("이름 : "+loginedMember.name);
+		System.out.println("ID : " + loginedMember.loginId);
+		System.out.println("이름 : " + loginedMember.name);
 	}
 
 	private void doLogin() {
 
-		System.out.println("ID : ");
-		String loginId = sc.nextLine().trim();
-		System.out.println("비밀번호 : ");
-		String passWord = sc.nextLine().trim();
+		Member member = null;
+		String passWord = null;
 
-		Member member = getMemberByLoginId(loginId);
+		while (true) {
+			System.out.printf("로그인 아이디 : ");
+			String loginId = sc.nextLine();
 
-		if (member == null) {
-			System.out.println("존재하지 않는 아이디 입니다");
-			return;
-		}
+			if (loginId.trim().length() == 0) {
+				System.out.println("로그인 아이디를 입력해주세요");
+				continue;
+			}
 
-		if (member.passWord.equals(passWord) == false) {
-			System.out.println("비밀번호를 확인해주세요");
-			return;
+			while (true) {
+				System.out.printf("로그인 비밀번호 : ");
+				passWord = sc.nextLine();
+
+				if (passWord.trim().length() == 0) {
+					System.out.println("로그인 비밀번호를 입력해주세요");
+					continue;
+				}
+				break;
+			}
+
+			member = getMemberByLoginId(loginId);
+
+			if (member == null) {
+				System.out.println("존재하지 않는 아이디 입니다");
+				return;
+			}
+
+			if (member.passWord.equals(passWord) == false) {
+				System.out.println("비밀번호를 확인해주세요");
+				return;
+			}
+			break;
 		}
 
 		loginedMember = member;
@@ -80,7 +99,7 @@ public class MemberController extends Controller {
 	}
 
 	private void doJoin() {
-		
+
 		int id = LastMemberId + 1;
 		LastMemberId = id;
 		String regDate = Util.getNowDate();
@@ -161,7 +180,7 @@ public class MemberController extends Controller {
 		}
 		return null;
 	}
-	
+
 	public void makeTestData() {
 		members.add(new Member(1, Util.getNowDate(), "test1", "1234", "user1"));
 		members.add(new Member(2, Util.getNowDate(), "test2", "1234", "user2"));

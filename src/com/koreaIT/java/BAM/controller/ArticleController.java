@@ -53,7 +53,7 @@ public class ArticleController extends Controller {
 
 	public void doWrite() {
 
-		int id = articles.size() + 1;
+		int id = Container.articleDao.getLastId();
 		String regDate = Util.getNowDate();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -61,7 +61,9 @@ public class ArticleController extends Controller {
 		String body = sc.nextLine();
 
 		Article article = new Article(id, regDate, regDate, loginedMember.id, title, body, 0);
-		articles.add(article);
+		
+		Container.articleDao.add(article);	
+		//articles.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
 	}
@@ -221,9 +223,9 @@ public class ArticleController extends Controller {
 	}
 
 	public void makeTestData() {
-		articles.add(new Article(1, Util.getNowDate(), Util.getNowDate(), 1, "test title", "test body", 10));
-		articles.add(new Article(2, Util.getNowDate(), Util.getNowDate(), 2, "test title", "test body", 20));
-		articles.add(new Article(3, Util.getNowDate(), Util.getNowDate(), 3, "test title", "test body", 30));
+		Container.articleDao.add(new Article(Container.articleDao.getLastId(), Util.getNowDate(), Util.getNowDate(), 1, "test title", "test body", 10));
+		Container.articleDao.add(new Article(Container.articleDao.getLastId(), Util.getNowDate(), Util.getNowDate(), 2, "test title", "test body", 20));
+		Container.articleDao.add(new Article(Container.articleDao.getLastId(), Util.getNowDate(), Util.getNowDate(), 3, "test title", "test body", 30));
 
 		System.out.println("테스트 데이터가 생성되었습니다.");
 	}
