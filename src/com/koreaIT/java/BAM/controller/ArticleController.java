@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import com.koreaIT.java.BAM.container.Container;
 import com.koreaIT.java.BAM.dto.Article;
+import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -15,7 +17,7 @@ public class ArticleController extends Controller {
 	String cmd;
 
 	public ArticleController(Scanner sc) {
-		this.articles = new ArrayList<>();
+		this.articles = Container.articleDao.articles;
 		this.sc = sc;
 	}
 
@@ -96,8 +98,20 @@ public class ArticleController extends Controller {
 		Collections.reverse(printArticles); // List printArticles를 역순으로 뒤집기
 
 		for (Article article : printArticles) {
-			System.out.println(article.id + "    |  " + article.title + " | " + article.regDate + " | "
-					+ article.memberId + " | " + article.hit);
+
+			String writerName = null;
+
+			List<Member> members = Container.memberDao.members;
+
+			for(Member member : members) {
+				if(article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+
+			System.out.printf("%d	|	%s	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, writerName,
+					article.hit);
 		}
 	}
 
